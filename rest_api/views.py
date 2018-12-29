@@ -51,7 +51,8 @@ class EmployeeCRUD_CBV(View):
  		return HttpResponse(json_data, content_type='application/json') 
 
  	def post(self, request, *args, **kwargs):
- 		json_data =request.body
+ 		json_data =request.body# to get data from partner application
+ 		#deserilaization to convert other form data into native data types
  		stream = io.BytesIO(json_data)
  		data = JSONParser().parse(stream)
  		serializer = EmployeeSerializer(data = data)
@@ -63,20 +64,20 @@ class EmployeeCRUD_CBV(View):
  		json_data = JSONRenderer().render(serializer.errors)
  		return HttpResponse(json_data, content_type='application/json')
 
- 	# def put(self, request, *args, **kwargs):
- 	# 	json_data = request.body
- 	# 	stream = io.BytesIO(json_data)
- 	# 	data =JSONParser().parse(stream)
- 	# 	id = data.get('id', None)
- 	# 	if id is not None:
- 	# 		emp = Employee.objects.get(id=id)
- 	# 		serializer = EmployeeSerializer(data = data)
- 	# 		if serializer.is_valid():
- 	# 			serializer.save()
- 	# 			msg = {'msg':'Update resourece successfully'}
- 	# 			json_data = JSONRenderer().render(msg)
- 	# 			return HttpResponse(json_data, content_type='application/json')
- 	# 		json_data = JSONRenderer().render(serializer.errors)
- 	# 		return HttpResponse(json_data, content_type='application/json')
+ 	def put(self, request, *args, **kwargs):
+ 		json_data = request.body
+ 		stream = io.BytesIO(json_data)
+ 		data =JSONParser().parse(stream)
+ 		id = data.get('id', None)
+ 		if id is not None:
+ 			emp = Employee.objects.get(id=id)
+ 			serializer = EmployeeSerializer(emp, data = data)
+ 			if serializer.is_valid():
+ 				serializer.save()
+ 				msg = {'msg':'Update resourece successfully'}
+ 				json_data = JSONRenderer().render(msg)
+ 				return HttpResponse(json_data, content_type='application/json')
+ 			json_data = JSONRenderer().render(serializer.errors)
+ 			return HttpResponse(json_data, content_type='application/json')
 
 

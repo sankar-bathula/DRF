@@ -26,4 +26,17 @@ def create_resource():
 	print(r.status_code)
 	print(r.text)
 	print(r.json)
-create_resource()
+#create_resource()
+
+def update_resource(id):
+	new_data={
+	'id':id,
+	'eno': 555,
+	'ename':'Manu Mohan',
+	'esal':4000,
+	'eaddr':'BalaNagar',
+	}
+	resp = requests.put(BASE_URL + END_POINT, data=json.dumps(new_data))
+	print(resp.status_code)
+	print(resp.json())
+update_resource(5)
