@@ -33,7 +33,7 @@ def update_resource(id):
 	'id':id,
 	'eno': 555,
 	'ename':'Manu Mohan',
-	'esal':4000,
+	'esal':6000,
 	'eaddr':'BalaNagar',
 	}
 	resp = requests.put(BASE_URL + END_POINT, data=json.dumps(new_data))
